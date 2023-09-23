@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+        - name: mysql
+          image: docker.io/
+          resources:
+            limits:
+              cpu: '0.3'
+              memory: 256Mi
+            requests:
+              cpu: '0.3'
+              memory: 128Mi
+          ports:
+            - containerPort: 3306
+          envFrom:
+            - configMapRef:
+                 name: mysql-config
+          lifecycle:
+            postStart:
+              exec:
+                command: ["sh", "-c", "mysql -u$MYSQL_USER -p$MYSQL_PASSWORD $MYSQL_DATABASE < /etc/mysql/schema.sql"]
+          volumeMounts:
+              - name: schema-volume
+                mountPath: /etc/mysql
+      volumes:
+        - name: schema-volume
+          configMap:
+            name: mysql-schema-configmap

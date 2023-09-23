@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx_deployment
+  labels:
+    name: nginx_deployment
+    app: java_web_app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: nginx_pod
+      app: java_web_app
+  template:
+    metadata:
+      name: nginx_pod
+      labels:
+        name: nginx_pod
+        app: java_web_app
+    spec:
+      containers:
+        - name: nginx
+          image: docker.io/nginx
+          resources:
+            limits:
+              cpu: '0.3'   # Example CPU limit (0.5 CPU cores)
+              memory: 512Mi   # Example memory limit (512 Megabytes)
+            requests:
+              cpu: '0.1'  # Example CPU request (0.1 CPU cores)
+              memory: 256Mi   # Example memory request (256 Megabytes)
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - mountPath: /etc/nginx/nginx.conf
+              name: nginx_volume_config
+              subPath: nginx.conf
+              readOnly: true
+      volumes:
+        - name: nginx_volume
+          configMap:
+            name: nginx_volume_config

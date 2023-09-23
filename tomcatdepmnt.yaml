@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tomcat_deployment
+  labels:
+    name: tomcat_deployment
+    app: java_web_app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: tomcat_pod
+      app: java_web_app
+  template:
+    metadata:
+      name: tomcat_pod
+      labels:
+        name: tomcat_pod
+        app: java_web_app
+    spec:
+      containers:
+        - name: tomcat
+          image: docker.io/amazonlinux
+          resources:
+            limits:
+              cpu: '0.5'  # Example CPU limit (0.5 CPU cores)
+              memory: 512Mi   # Example memory limit (512 Megabytes)
+            requests:
+              cpu: '0.1'   # Example CPU request (0.1 CPU cores)
+              memory: 256Mi   # Example memory request (256 Megabytes)
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - mountPath: /usr/local/tomcat/conf/
+              name: tomcat_volume_config
+            - mountPath: /usr/local/tomcat/webapps
+              name: war_artifact
+      volumes:
+        - name: tomcat_volume_config
+          configMap:
+            name: tomcat_volume_config
+        - name: war_artifact
+          hostPath:
+            path: C:\Users\On_God\Desktop\dockerizeJavaWebAppDC\kubDeployments\dptweb-1.0.war
+      initContainers:
+        - name: required_packages
+          image: docker.io/amazonlinux
+          command: ["bash", "-c"]
+          args:
+            - |
+              dnf install -y java mysql telnet

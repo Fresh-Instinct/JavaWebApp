@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tomcat_volume_config
+data:
+  tomcat-users.xml: |
+    <?xml version="1.0" encoding="UTF-8"?>
+    <tomcat-users>
+      <!-- Define a user with the "manager-gui" role (typically used for the Tomcat Manager web app) -->
+      <user username="admin" password="admin" roles="manager-gui"/>
+
+      <!-- Define a user with the "admin-gui" and "manager-gui" roles -->
+      <user username="manager" password="manager" roles="admin-gui,manager-gui"/>
+
+      <!-- Additional users and roles can be defined here -->
+    </tomcat-users>
