@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tomcat_deployment
+  name: tomcat-deployment
   labels:
-    name: tomcat_deployment
-    app: java_web_app
+    name: tomcat-deployment
+    app: java-web-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: tomcat_pod
-      app: java_web_app
+      name: tomcat-pod
+      app: java-web-app
   template:
     metadata:
-      name: tomcat_pod
+      name: tomcat-pod
       labels:
-        name: tomcat_pod
-        app: java_web_app
+        name: tomcat-pod
+        app: java-web-app
     spec:
       containers:
         - name: tomcat
@@ -32,14 +32,14 @@ spec:
             - containerPort: 8080
           volumeMounts:
             - mountPath: /usr/local/tomcat/conf/
-              name: tomcat_volume_config
+              name: tomcat-volume-config
             - mountPath: /usr/local/tomcat/webapps
-              name: war_artifact
+              name: war-artifact
       volumes:
-        - name: tomcat_volume_config
+        - name: tomcat-volume-config
           configMap:
-            name: tomcat_volume_config
-        - name: war_artifact
+            name: tomcat-volume-config
+        - name: war-artifact
           hostPath:
             path: C:\Users\On_God\Desktop\dockerizeJavaWebAppDC\kubDeployments\dptweb-1.0.war
       initContainers:

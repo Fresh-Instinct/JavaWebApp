@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx_deployment
+  name: nginx-deployment
   labels:
-    name: nginx_deployment
-    app: java_web_app
+    name: nginx-deployment
+    app: java-web-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: nginx_pod
-      app: java_web_app
+      name: nginx-pod
+      app: java-web-app
   template:
     metadata:
-      name: nginx_pod
+      name: nginx-pod
       labels:
-        name: nginx_pod
-        app: java_web_app
+        name: nginx-pod
+        app: java-web-app
     spec:
       containers:
         - name: nginx
@@ -32,10 +32,10 @@ spec:
             - containerPort: 80
           volumeMounts:
             - mountPath: /etc/nginx/nginx.conf
-              name: nginx_volume_config
+              name: nginx-volume-config
               subPath: nginx.conf
               readOnly: true
       volumes:
-        - name: nginx_volume
+        - name: nginx-volume
           configMap:
-            name: nginx_volume_config
+            name: nginx-volume-config

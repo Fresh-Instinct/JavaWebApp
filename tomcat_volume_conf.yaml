@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: tomcat_volume_config
+  name: tomcat-volume-config
 data:
   tomcat-users.xml: |
     <?xml version="1.0" encoding="UTF-8"?>
