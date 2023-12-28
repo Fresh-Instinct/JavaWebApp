@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    name: mysql-service
+    app: java-web-app
+spec:
+  ports:
+  - port: 3306
+    protocol: TCP
+    targetPort: 3306
+  selector:
+    name: mysql-deployment
+    app: java-web-app
+  type: ClusterIP
+status:
+  loadBalancer: {}
