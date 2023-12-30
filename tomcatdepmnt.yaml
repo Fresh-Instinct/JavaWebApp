@@ -43,7 +43,7 @@ spec:
           hostPath:
             path: C:\Users\On_God\Desktop\dockerizeJavaWebAppDC\kubDeployments\dptweb-1.0.war
       initContainers:
-        - name: required_packages
+        - name: required-packages
           image: docker.io/amazonlinux
           command: ["bash", "-c"]
           args:
